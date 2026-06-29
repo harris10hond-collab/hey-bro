@@ -66,6 +66,24 @@ button{
 #no:hover{
     background:#b91c1c;
 }
+
+/* Στυλ για το πεδίο του ονόματος */
+input[type="text"] {
+    font-size: 24px;
+    padding: 12px;
+    border: 2px solid #333;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    width: 280px;
+    text-align: center;
+}
+
+#nextButton {
+    background: #3b82f6;
+    color: white;
+    display: block;
+    margin: 0 auto;
+}
 </style>
 </head>
 
@@ -73,24 +91,67 @@ button{
 
 <div class="container">
 
-    <!-- Βάλε εδώ την εικόνα που μου έστειλες -->
-    <img src="angry.png" alt="Angry">
+    <!-- ΠΡΩΤΗ ΟΘΟΝΗ: ΕΡΩΤΗΣΗ ΓΙΑ ΟΝΟΜΑ -->
+    <div id="nameSection">
+        <h1>ΓΡΑΨΕ ΤΟ ΟΝΟΜΑ ΣΟΥ:</h1>
+        <input type="text" id="visitorName" placeholder="π.χ. Κώστας">
+        <button id="nextButton">ΕΠΟΜΕΝΟ</button>
+    </div>
 
-    <h1>ΘΑ ΕΡΘΕΙΣ ΣΤΗ ΒΟΛΤΑ ΤΟΥ OG SQUAD;</h1>
+    <!-- ΔΕΥΤΕΡΗ ΟΘΟΝΗ: Η ΒΟΛΤΑ (ΚΡΥΦΗ ΣΤΗΝ ΑΡΧΗ) -->
+    <div id="questionSection" style="display: none;">
+        <!-- Βάλε εδώ την εικόνα που μου έστειλες -->
+        <img src="angry.png" alt="Angry">
 
-    <button id="yesButton">YES</button>
-    <button id="no">NO</button>
+        <h1>ΘΑ ΕΡΘΕΙΣ ΣΤΗ ΒΟΛΤΑ ΤΟΥ OG SQUAD;</h1>
+
+        <button id="yesButton">YES</button>
+        <button id="no">NO</button>
+    </div>
 
 </div>
 
 <script>
 
+// Διαχείριση εναλλαγής οθονών
+const nameSection = document.getElementById("nameSection");
+const questionSection = document.getElementById("questionSection");
+const nextButton = document.getElementById("nextButton");
+const visitorNameInput = document.getElementById("visitorName");
+
+let userName = "";
+
+nextButton.addEventListener("click", function() {
+    if (visitorNameInput.value.trim() === "") {
+        alert("Βάλε όνομα ρε μπρο!");
+        return;
+    }
+    userName = visitorNameInput.value.trim();
+    nameSection.style.display = "none";
+    questionSection.style.display = "block";
+});
+
+// Ο δικός σου κώδικας για τα κουμπιά
 const yesButton = document.getElementById("yesButton");
 const no = document.getElementById("no");
 
 let size = 30;
 
 yesButton.addEventListener("click", function(){
+    // --- ΒΑΛΕ ΤΟ ΔΙΚΟ ΣΟΥ ID ΑΠΟ ΤΟ FORMSPREE ΕΔΩ ---
+    const formspreeUrl = "https://formspree.io/f/ΕΔΩ_ΒΑΖΕΙΣ_ΤΟ_ΔΙΚΟ_ΣΟΥ_ID";
+
+    const formData = new FormData();
+    formData.append("Όνομα", userName);
+    formData.append("Απάντηση", "YES");
+
+    // Στέλνει την απάντηση στο mail σου
+    fetch(formspreeUrl, {
+        method: "POST",
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+    });
+
     alert("GOOD BOY!(AN PATHSES NO THA FAS OMADIKO RAPE KAI THA SE VALOUME NA DEIS TH THRISKEYTIKOU TOU GYMNASIOY GYMNH)");
 });
 
