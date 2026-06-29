@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OG Squad</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffb6b6,#ffd6a5);
+    font-family:Arial, Helvetica, sans-serif;
+    overflow:hidden;
+}
+
+.container{
+    text-align:center;
+}
+
+img{
+    width:180px;
+    margin-bottom:20px;
+}
+
+h1{
+    font-size:52px;
+    margin-bottom:35px;
+}
+
+button{
+    font-size:30px;
+    font-weight:bold;
+    padding:15px 40px;
+    margin:10px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+#yesButton{
+    background:#22c55e;
+    color:white;
+}
+
+#yesButton:hover{
+    background:#15803d;
+}
+
+#no{
+    background:#ef4444;
+    color:white;
+    position:absolute;
+}
+
+#no:hover{
+    background:#b91c1c;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Βάλε εδώ την εικόνα που μου έστειλες -->
+    <img src="angry.png" alt="Angry">
+
+    <h1>ΘΑ ΕΡΘΕΙΣ ΣΤΗ ΒΟΛΤΑ ΤΟΥ OG SQUAD;</h1>
+
+    <button id="yesButton">YES</button>
+    <button id="no">NO</button>
+
+</div>
+
+<script>
+
+const yesButton = document.getElementById("yesButton");
+const no = document.getElementById("no");
+
+let size = 30;
+
+yesButton.addEventListener("click", function(){
+    alert("GOOD BOY!(AN PATHSES NO THA FAS OMADIKO RAPE KAI THA SE VALOUME NA DEIS TH THRISKEYTIKOU TOU GYMNASIOY GYMNH)");
+});
+
+no.addEventListener("mouseover", moveButton);
+
+function moveButton(){
+
+    const maxX = window.innerWidth - no.offsetWidth;
+    const maxY = window.innerHeight - no.offsetHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    no.style.left = x + "px";
+    no.style.top = y + "px";
+
+    // Μεγαλώνει το YES
+    size += 8;
+    yesButton.style.fontSize = size + "px";
+    yesButton.style.padding = (size / 2) + "px " + size + "px";
+}
+
+</script>
+
+</body>
+</html>
