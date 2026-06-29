@@ -84,6 +84,42 @@ input[type="text"] {
     display: block;
     margin: 0 auto;
 }
+
+/* Στυλ για τη νέα FULL-SCREEN ΧΑΡΟΥΜΕΝΗ ΟΘΟΝΗ */
+#successSection {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #a8ff78, #78ffd6); /* Χαρούμενα φωτεινά χρώματα */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    z-index: 9999;
+}
+
+#successSection h2 {
+    font-size: 64px; /* Μεγάλα γράμματα */
+    color: #1e293b;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+}
+
+#successSection p {
+    font-size: 32px; /* Μεγάλα γράμματα */
+    color: #0f172a;
+    font-weight: bold;
+    max-width: 800px;
+}
+
+.happy-img {
+    width: 250px; /* Λίγο πιο μεγάλη για να φαίνεται ωραία */
+    margin-bottom: 30px;
+}
 </style>
 </head>
 
@@ -98,7 +134,7 @@ input[type="text"] {
         <button id="nextButton">ΕΠΟΜΕΝΟ</button>
     </div>
 
-    <!-- ΔΕΥΤΕΡΗ ΟΘΟΝΗ: Η ΒΟΛΤΑ (ΚΡΥΦΗ ΣΤΗΝ ΑΡΧΗ) -->
+    <!-- ΔΕΥΤΕΡΗ ΟΘΟΝΗ: Η ΒΟΛΤΑ -->
     <div id="questionSection" style="display: none;">
         <!-- Βάλε εδώ την εικόνα που μου έστειλες -->
         <img src="angry.png" alt="Angry">
@@ -111,11 +147,21 @@ input[type="text"] {
 
 </div>
 
+<!-- ΤΡΙΤΗ ΟΘΟΝΗ: ΤΟ ΝΕΟ CUSTOM ΜΗΝΥΜΑ ΕΠΙΤΥΧΙΑΣ -->
+<div id="successSection">
+    <!-- ΕΔΩ ΜΠΑΙΝΕΙ Η ΧΑΡΟΥΜΕΝΗ ΕΙΚΟΝΑ ΣΟΥ (άλλαξε το happy.png με το όνομα της εικόνας σου) -->
+    <img src="happy.png" alt="Happy" class="happy-img">
+    
+    <h2>Ευχαριστώ pookie! ✨</h2>
+    <p>(αν πάτησες no στην αρχή είσαι να ξες ο τροχός γυρνάει...)</p>
+</div>
+
 <script>
 
 // Διαχείριση εναλλαγής οθονών
 const nameSection = document.getElementById("nameSection");
 const questionSection = document.getElementById("questionSection");
+const successSection = document.getElementById("successSection");
 const nextButton = document.getElementById("nextButton");
 const visitorNameInput = document.getElementById("visitorName");
 
@@ -131,7 +177,7 @@ nextButton.addEventListener("click", function() {
     questionSection.style.display = "block";
 });
 
-// Ο δικός σου κώδικας για τα κουμπιά
+// Ο κώδικας για τα κουμπιά
 const yesButton = document.getElementById("yesButton");
 const no = document.getElementById("no");
 
@@ -139,7 +185,7 @@ let size = 30;
 
 yesButton.addEventListener("click", function(){
     // --- ΒΑΛΕ ΤΟ ΔΙΚΟ ΣΟΥ ID ΑΠΟ ΤΟ FORMSPREE ΕΔΩ ---
-    const formspreeUrl = "https://formspree.io/f/xkolzyld";
+    const formspreeUrl = "https://formspree.io/f/ΕΔΩ_ΒΑΖΕΙΣ_ΤΟ_ΔΙΚΟ_ΣΟΥ_ID";
 
     const formData = new FormData();
     formData.append("Όνομα", userName);
@@ -152,7 +198,13 @@ yesButton.addEventListener("click", function(){
         headers: { 'Accept': 'application/json' }
     });
 
-    alert("GOOD BOY!(AN PATHSES NO THA FAS OMADIKO RAPE KAI THA SE VALOUME NA DEIS TH THRISKEYTIKOU TOU GYMNASIOY GYMNH)");
+    // ΕΔΩ ΠΑΙΖΕΙ Ο ΗΧΟΣ (άλλαξε το sound.mp3 με το όνομα του ήχου σου)
+    const audio = new Audio('sound.mp3');
+    audio.play();
+
+    // Εξαφανίζει το παλιό site και πετάει τη full-screen χαρούμενη οθόνη
+    document.querySelector('.container').style.display = "none";
+    successSection.style.display = "flex";
 });
 
 no.addEventListener("mouseover", moveButton);
