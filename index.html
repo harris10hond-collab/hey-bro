@@ -168,8 +168,8 @@ input[type="text"] {
 
     <!-- ΠΡΩΤΗ ΟΘΟΝΗ: ΕΡΩΤΗΣΗ ΓΙΑ ΟΝΟΜΑ -->
     <div id="nameSection">
-        <h1>ΓΡΑΨΕ ΤΟ ΟΝΟΜΑ ΣΟΥ:</h1>
-        <input type="text" id="visitorName" placeholder="π.χ. Κώστας">
+        <h1>ΓΡΑΨΕ ΟΝΟΜΑ ΤΩΡΑ!:</h1>
+        <input type="text" id="visitorName" placeholder="π.χ. Αφρίμ">
         <button id="nextButton">ΕΠΟΜΕΝΟ</button>
     </div>
 
@@ -178,7 +178,7 @@ input[type="text"] {
         <!-- Η θυμωμένη έκδοση ξεκινάει κρυφή, όπως ζήτησες στο προηγούμενο βήμα -->
         <img src="angry.png" alt="Angry" id="angryImage" style="display: none;">
 
-        <h1>ΘΑ ΕΡΘΕΙΣ ΣΤΗ ΒΟΛΤΑ ΤΟΥ OG SQUAD;</h1>
+        <h1>ΘΑ ΕΡΘΕΙΣ ΣΤΗ ΒΟΛΤΑ;</h1>
 
         <button id="yesButton">YES</button>
         <button id="no">NO</button>
@@ -191,15 +191,15 @@ input[type="text"] {
     <!-- ΕΔΩ ΜΠΑΙΝΕΙ Η ΧΑΡΟΥΜΕΝΗ ΕΙΚΟΝΑ ΣΟΥ (άλλαξε το happy.png) -->
     <img src="happy.png" alt="Happy" class="happy-img">
     
-    <h2>Ευχαριστώ pookie! ✨</h2>
-    <p>(αν πάτησες no στην αρχή είσαι να ξες ο τροχός γυρνάει...)</p>
+    <h2>ΠΑΜΕ ΛΙΓΟΟΟ! ✨</h2>
+    <p>(αν πάτησες no στην αρχή να ξες ο τροχός γυρνάει...)</p>
 </div>
 
 <!-- ΤΕΤΑΡΤΗ ΟΘΟΝΗ: JUMPSCARE ΟΤΑΝ ΠΑΤΗΘΕΙ ΤΟ NO ΓΙΑ ΠΡΩΤΗ ΦΟΡΑ -->
 <div id="jumpscareSection">
     <!-- ΕΔΩ ΜΠΑΙΝΕΙ Η JUMPSCARE ΕΙΚΟΝΑ ΣΟΥ (άλλαξε το jumpscare.png με το δικό σου αρχείο) -->
     <img src="jumpscare.png" alt="Jumpscare" class="jumpscare-img">
-    <h2>ΣΟΒΑΡΕΨΟΥ</h2>
+    <h2>ΣΟΒΑΡΕΨΟΥ!!!</h2>
 </div>
 
 <script>
@@ -218,7 +218,7 @@ let hasPressedNoBefore = false; // Έλεγχος αν πατήθηκε το NO 
 
 nextButton.addEventListener("click", function() {
     if (visitorNameInput.value.trim() === "") {
-        alert("Βάλε όνομα ρε μπρο!");
+        alert("Βάλε όνομα λεγκέν!");
         return;
     }
     userName = visitorNameInput.value.trim();
