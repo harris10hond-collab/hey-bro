@@ -60,7 +60,8 @@ button{
 #no{
     background:#ef4444;
     color:white;
-    position:absolute;
+    /* Ξεκινάει χωρίς absolute για να πατηθεί εύκολα την πρώτη φορά */
+    position: relative; 
 }
 
 #no:hover{
@@ -85,7 +86,7 @@ input[type="text"] {
     margin: 0 auto;
 }
 
-/* Στυλ για τη νέα FULL-SCREEN ΧΑΡΟΥΜΕΝΗ ΟΘΟΝΗ */
+/* Στυλ για τη FULL-SCREEN ΧΑΡΟΥΜΕΝΗ ΟΘΟΝΗ */
 #successSection {
     display: none;
     position: fixed;
@@ -93,7 +94,7 @@ input[type="text"] {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(135deg, #a8ff78, #78ffd6); /* Χαρούμενα φωτεινά χρώματα */
+    background: linear-gradient(135deg, #a8ff78, #78ffd6);
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -103,22 +104,60 @@ input[type="text"] {
 }
 
 #successSection h2 {
-    font-size: 64px; /* Μεγάλα γράμματα */
+    font-size: 64px;
     color: #1e293b;
     margin-bottom: 20px;
     text-shadow: 2px 2px 10px rgba(0,0,0,0.1);
 }
 
 #successSection p {
-    font-size: 32px; /* Μεγάλα γράμματα */
+    font-size: 32px;
     color: #0f172a;
     font-weight: bold;
     max-width: 800px;
 }
 
 .happy-img {
-    width: 250px; /* Λίγο πιο μεγάλη για να φαίνεται ωραία */
+    width: 250px;
     margin-bottom: 30px;
+}
+
+/* Στυλ για την ΟΘΟΝΗ JUMPSCARE */
+#jumpscareSection {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    z-index: 10000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* Εφέ Fade Out μετά το αρχικό μπαμ */
+    animation: fadeEffect 4s forwards;
+}
+
+#jumpscareSection h2 {
+    color: red;
+    font-size: 90px;
+    font-weight: black;
+    letter-spacing: 5px;
+    margin-top: 20px;
+}
+
+.jumpscare-img {
+    max-width: 80%;
+    max-height: 70vh;
+    object-fit: contain;
+}
+
+@keyframes fadeEffect {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
 }
 </style>
 </head>
@@ -136,7 +175,7 @@ input[type="text"] {
 
     <!-- ΔΕΥΤΕΡΗ ΟΘΟΝΗ: Η ΒΟΛΤΑ -->
     <div id="questionSection" style="display: none;">
-        <!-- Η θυμωμένη εικόνα ξεκινάει κρυφή (display: none) -->
+        <!-- Η θυμωμένη έκδοση ξεκινάει κρυφή, όπως ζήτησες στο προηγούμενο βήμα -->
         <img src="angry.png" alt="Angry" id="angryImage" style="display: none;">
 
         <h1>ΘΑ ΕΡΘΕΙΣ ΣΤΗ ΒΟΛΤΑ ΤΟΥ OG SQUAD;</h1>
@@ -149,11 +188,18 @@ input[type="text"] {
 
 <!-- ΤΡΙΤΗ ΟΘΟΝΗ: ΤΟ ΝΕΟ CUSTOM ΜΗΝΥΜΑ ΕΠΙΤΥΧΙΑΣ -->
 <div id="successSection">
-    <!-- ΕΔΩ ΜΠΑΙΝΕΙ Η ΧΑΡΟΥΜΕΝΗ ΕΙΚΟΝΑ ΣΟΥ (άλλαξε το happy.png με το όνομα της εικόνας σου) -->
+    <!-- ΕΔΩ ΜΠΑΙΝΕΙ Η ΧΑΡΟΥΜΕΝΗ ΕΙΚΟΝΑ ΣΟΥ (άλλαξε το happy.png) -->
     <img src="happy.png" alt="Happy" class="happy-img">
     
     <h2>Ευχαριστώ pookie! ✨</h2>
-    <p>(αν πάτησες no στην αρχή να ξες ο τροχός γυρνάει...)</p>
+    <p>(αν πάτησες no στην αρχή είσαι να ξες ο τροχός γυρνάει...)</p>
+</div>
+
+<!-- ΤΕΤΑΡΤΗ ΟΘΟΝΗ: JUMPSCARE ΟΤΑΝ ΠΑΤΗΘΕΙ ΤΟ NO ΓΙΑ ΠΡΩΤΗ ΦΟΡΑ -->
+<div id="jumpscareSection">
+    <!-- ΕΔΩ ΜΠΑΙΝΕΙ Η JUMPSCARE ΕΙΚΟΝΑ ΣΟΥ (άλλαξε το jumpscare.png με το δικό σου αρχείο) -->
+    <img src="jumpscare.png" alt="Jumpscare" class="jumpscare-img">
+    <h2>ΣΟΒΑΡΕΨΟΥ</h2>
 </div>
 
 <script>
@@ -162,11 +208,13 @@ input[type="text"] {
 const nameSection = document.getElementById("nameSection");
 const questionSection = document.getElementById("questionSection");
 const successSection = document.getElementById("successSection");
+const jumpscareSection = document.getElementById("jumpscareSection");
 const nextButton = document.getElementById("nextButton");
 const visitorNameInput = document.getElementById("visitorName");
 const angryImage = document.getElementById("angryImage");
 
 let userName = "";
+let hasPressedNoBefore = false; // Έλεγχος αν πατήθηκε το NO μία φορά
 
 nextButton.addEventListener("click", function() {
     if (visitorNameInput.value.trim() === "") {
@@ -183,41 +231,76 @@ const yesButton = document.getElementById("yesButton");
 const no = document.getElementById("no");
 
 let size = 30;
-let imgSize = 180; // Αρχικό μέγεθος της θυμωμένης εικόνας
+let imgSize = 180; 
+
+// Κοινή διεύθυνση Formspree
+const formspreeUrl = "https://formspree.io/f/xkolzyld";
 
 yesButton.addEventListener("click", function(){
-    // --- ΒΑΛΕ ΤΟ ΔΙΚΟ ΣΟΥ ID ΑΠΟ ΤΟ FORMSPREE ΕΔΩ ---
-    const formspreeUrl = "https://formspree.io/f/xkolzyld";
-
     const formData = new FormData();
     formData.append("Όνομα", userName);
     formData.append("Απάντηση", "YES");
 
-    // Στέλνει την απάντηση στο mail σου
     fetch(formspreeUrl, {
         method: "POST",
         body: formData,
         headers: { 'Accept': 'application/json' }
     });
 
-    // ΕΔΩ ΠΑΙΖΕΙ Ο ΗΧΟΣ (άλλαξε το sound.mp3 με το όνομα του ήχου σου)
+    // Ήχος επιτυχίας
     const audio = new Audio('sound.mp3');
     audio.play();
 
-    // Εξαφανίζει το παλιό site και πετάει τη full-screen χαρούμενη οθόνη
     document.querySelector('.container').style.display = "none";
     successSection.style.display = "flex";
 });
 
-no.addEventListener("mouseover", moveButton);
+// Διαχείριση για το κουμπί NO
+no.addEventListener("click", function(e) {
+    // Αν δεν έχει ξαναπατηθεί, ενεργοποιείται το Jumpscare
+    if (!hasPressedNoBefore) {
+        hasPressedNoBefore = true;
+
+        // Καταγραφή του "NO" στο Formspree
+        const formData = new FormData();
+        formData.append("Όνομα", userName);
+        formData.append("Απάντηση", "NO");
+
+        fetch(formspreeUrl, {
+            method: "POST",
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        });
+
+        // ΕΔΩ ΜΠΟΡΕΙΣ ΝΑ ΒΑΛΕΙΣ ΚΑΙ ΕΝΑΝ ΔΥΝΑΤΟ ΗΧΟ ΓΙΑ ΤΟ JUMPSCARE ΑΝ ΘΕΣ (π.χ. scream.mp3)
+        const scream = new Audio('scream.mp3');
+        scream.play();
+
+        // Εμφάνιση jumpscare
+        jumpscareSection.style.display = "flex";
+
+        // Μετά από 4 δευτερόλεπτα (4000ms), επαναφορά του site αλλά με το NO να φεύγει πλέον
+        setTimeout(function() {
+            jumpscareSection.style.style = "none"; // Κλείνει το jumpscare screen
+            jumpscareSection.style.display = "none";
+            
+            // Μετατρέπουμε το NO σε absolute για να μπορεί να μετακινηθεί
+            no.style.position = "absolute"; 
+            
+            // Εμφανίζουμε και τη θυμωμένη εικόνα
+            angryImage.style.display = "inline-block";
+        }, 4000);
+    }
+});
+
+// Το mouseover λειτουργεί ΜΟΝΟ αν ο χρήστης έχει ήδη πατήσει το NO μια φορά
+no.addEventListener("mouseover", function() {
+    if (hasPressedNoBefore) {
+        moveButton();
+    }
+});
 
 function moveButton(){
-
-    // Εμφάνιση της εικόνας την πρώτη φορά που πλησιάζει το NO
-    if (angryImage.style.display === "none") {
-        angryImage.style.display = "inline-block";
-    }
-
     const maxX = window.innerWidth - no.offsetWidth;
     const maxY = window.innerHeight - no.offsetHeight;
 
